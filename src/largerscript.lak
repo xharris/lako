@@ -1,0 +1,22 @@
+var vinteger = 1
+var vdecimal = 10.20
+
+var vbool = true
+var vnotbool = !vbool
+
+/*
+var parseColor = (r, g, b, a) => {
+}
+  // no color given
+  if (r == null || r == true) 
+    return [1, 1, 1, 1]
+  if (r is array)
+    return [r, g, b, a]
+}
+
+var Draw = {
+  color = (r, g, b, a) => {
+    return SDL_SetRenderDrawColor(renderer, r, g, b, a)
+  }
+}
+*/

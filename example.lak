@@ -1,0 +1,162 @@
+/* potential names
+Lako - easy in Croatian
+
+TOKENS
+
+identifier  x, color, UP_DOG5
+reserved    var, return, 
+separator   { ( [ ;
+operator    + < =
+literal     true, 6.02e23, "wow"
+comment     /* comment //
+
+function    identifier op= body( idlist
+
+*/
+
+// config file
+
+//// lang.json
+
+{
+  require: {
+    paths: [
+      "?.lang",
+    ]
+  }
+}
+
+// script loading
+
+//// module.lang
+
+var private_num
+var public_num
+
+return {
+  num = public_num
+}
+
+//// main.lang
+
+var module = require("./module")
+module.num // public_num
+
+// var, number, string (c types)
+
+var num1 = 1
+var num2:number, num3 = 2, 3
+var str1 = '{ and } only works with "backticks"?'
+var str2 = `{str1} {num1}, num2 + num3 = {num2 + num3}. this can use \{ and \}`
+
+var varNull, nunNull:number, strNull:string // all null
+
+// type casting
+
+var str1:string
+var num1:number = number(str1)
+var str2:string = string(num1)
+var bool1:bool = bool(num1) // true == !0
+
+// pass by value / reference
+// only arrays / tables are passed by reference
+
+// array
+
+var arr1 = [],
+    arr2 = [0,1,2],
+    arr3:array, // null
+
+push(arr2, 3, 4)
+
+// map
+
+var map1 = {},
+    map2 = {three=3, [1+3]='four'},
+    map3:map // null
+
+map2.two
+map2['two']
+
+// maps as oop
+
+var Person = {
+  age_total = 0,
+  __new = (self, name, age) => {
+    self.name = name
+    Person.age_total += age
+  },
+  __call = (self, x) => {
+    Person.age_total += x
+  },
+  __string = (self) => {},
+  __+ = (self, b) => {}, // b is null if it's unary prefix?
+  __++ = (self, is_prefix) => {},
+  bark = (self) => {
+    prnumber('woof! my name is {self.name}')
+  }
+}
+
+/* map overloads __
+new
+all
+
+// casting
+string
+number
+bool
++, -
+*, /, %, ^, ==, <, <=, >, >=
+++, --
+indexget ([key])
+indexset ([key] = value)
+*/
+
+var bob = new Person('jim')
+bob.bark()
+Person.bark(bob)  
+
+var callcount = Person(5) // 5
+bob(5) // 10
+bob is Person // true
+bob is map // true
+
+// function
+
+var fn1 = (arg1) => { return 1 },
+    fn2 = () => 1,
+    fn3 = (num, str) => num == str, // warning: comparing different types
+    fn4:bool = (num:number, str:string) => num == str, // error: comparing different types
+    fn5 = (num_reference) => { num_reference *= 2 }
+
+var num:number = fn1("wow") // error: cannot store non-number in num, fn1 returned an number
+
+var stringMaker = (str, str2) => str + "But wait! There's more! " + (str2 || "Pizza!")
+stringMaker() // error. Cannot add null and string
+stringMaker("Get an exlcusive deal.")
+stringMaker("Get an exlcusive deal.", "Burgers!")
+
+// function -- chaining
+
+var add = (a, b) => a + b
+var sub = (a, b) => a - b
+
+var bob = add(4, 5)->sub($, 3) 
+// $ is a global variable containing the returned value of the last called function
+// $ only exists when chaining
+
+// error handling
+
+myfunction() // error occurs here, go to the next closest catch()
+  ->secondfn() // this is skipped
+  ->catch((e) => {
+    // e.continue() // will stop function chaining here unless e.continue() is called
+  }) 
+  ->anotherfn()
+
+try(() => {
+
+})
+.catch((e) => {
+  
+})

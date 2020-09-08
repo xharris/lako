@@ -1,0 +1,6 @@
+var num1 = 450; var num2 = num1+2
+const num3 = "wow {num1} ok{num2 +num3} \nnice one"
+/*var print = (x) => console.log(x)
+print(num3 + "other var is {num2 +num3}")
+
+*/

@@ -1,0 +1,62 @@
+// BNF of Lako (I guess that's what I'm calling this language now)
+
+<unop-lhs>    ::= [ ++ -- - + ! ~ ]
+<unop-rhs>    ::= [ ++ -- ]
+<binop>       ::= [ - + / * & | && || ]
+<fn-ret>      ::= $
+<identifier>  ::= [A-Za-z_][A-Za-z_0-9]*
+<type>        ::= number | string | bool | array | map
+<typed-ident> ::= <identifier>[:<type>]?
+
+<dec> ::= [-+]?[0-9]+[\.[0-9]+]?
+<hex> ::= 0x[A-Fa-f0-7]+
+<str> ::= ('"`).*\1
+<bool>::= true | false
+
+<array> ::= \[<expr>[,<expr>]*\]
+
+<map-key> ::= <identifier> |
+              \[<expr>\]
+<map-key-value> ::= <map-key>=<expr> |
+                    <identifier>                    // similar to javascripts { value } where the variable name becomes the key
+<map> ::= \{[<map-key-value>[,<map-key-value>]*\}
+
+<literal> ::= <null> |
+              <dec> |
+              <hex> |
+              <str> |
+              <bool>
+
+<expr>  ::= (<expr>) |
+            <literal> |
+            <function> |
+            <identifier> |
+            <array> |
+            <map> |
+            <identifier>[<expr>] |                // map/array access
+            <identifier>.<identifier> |           // map access
+            <expr> ? <expr> : <expr> |
+            <expr> <binop> <expr> |
+            <unop-lhs> <expr> |
+            <expr> <unop-rhs> |
+            \(<expr>[, <expr>]*\) => <expr> |     // function 
+            <function-call> |
+            <chain> | 
+            <fn-ret>
+
+<function-call> ::= <expr>\(<expr>[, <expr>]*\)
+
+<chain>  ::=  <expr>
+              <function-call> |
+              <chain> -> <chain> // doesn't require spaces around '->'
+
+<declaration> ::= var <typed-ident> |
+                  [var]? <typed-ident>[, <typed-ident>]* = <expr>[, <expr>]*
+
+<body>  ::= <expr> |
+            \{ [<expr> | <declaraction>]+ \}
+
+<stmt>  ::= if \(<expr>\) <body> |
+            for \(<declaraction>;<expr>;<expr>\) <body> |
+            while \(<expr>\) <body> |
+            do <body> while \(<expr>\)
