@@ -1,17 +1,5 @@
 /* potential names
-Lako - easy in Croatian
-
-TOKENS
-
-identifier  x, color, UP_DOG5
-reserved    var, return, 
-separator   { ( [ ;
-operator    + < =
-literal     true, 6.02e23, "wow"
-comment     /* comment //
-
-function    identifier op= body( idlist
-
+Lako - means easy in Croatian
 */
 
 // config file

@@ -1,7 +1,7 @@
 run:
 	-make clean
 	g++ -Wall -o output ./src/tokenlist.cpp ./src/parser.cpp ./src/main.cpp
-	./output ./src/largerscript.lak
+	./output ./examples/largerscript.lak
 
 clean:
 	rm output
